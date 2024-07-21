@@ -215,13 +215,22 @@ function Box({ children }) {
 
 
 function MovieList({ movies, onSelectedMovie }) {
-
+  const [showMore, setShowMore] = useState(false);
+  const handleShowMore = () => setShowMore(!showMore);
+  const displayedMovies = showMore ? movies : movies.slice(0, 8);
   return (
-    <ul className="list list-movies">
-      {movies?.map((movie) => (
-        <Movie movie={movie} key={movie.imdbID} onSelectedMovie={onSelectedMovie} />
-      ))}
-    </ul>
+    <>
+      <ul className="list list-movies">
+        {displayedMovies?.map((movie) => (
+          <Movie movie={movie} key={movie.imdbID} onSelectedMovie={onSelectedMovie} />
+        ))}
+      </ul>
+      {movies.length > 8 && (
+        <button className="btn-show-more" onClick={handleShowMore}>
+          {showMore ? "Show Less" : "Show More"}
+        </button>
+      )}
+    </>
   )
 }
 function Movie({ movie, onSelectedMovie }) {
